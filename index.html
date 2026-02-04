@@ -1,30 +1,346 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Mahmud Security Labs</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <style>
-        body { background: #0d1117; color: #c9d1d9; font-family: 'Courier New', monospace; padding: 50px; }
-        .container { max-width: 800px; margin: auto; border-left: 3px solid #238636; padding-left: 20px; }
-        h1 { color: #238636; }
-        .status { color: #8b949e; font-size: 0.9em; }
-        .content { margin-top: 30px; line-height: 1.6; }
+        :root {
+            --bg-main: #050b16;
+            --bg-secondary: #0b1528;
+            --card-bg: rgba(255, 255, 255, 0.04);
+            --border-glow: rgba(0, 136, 255, 0.3);
+            --text-main: #e8eefc;
+            --text-muted: #9fb0d1;
+            --primary: #1e90ff;
+            --primary-dark: #0a66c2;
+            --radius: 14px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            background: radial-gradient(circle at top right, #0d1c36, var(--bg-main));
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        header {
+            padding: 28px 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--primary), #00c6ff);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+
+        nav a {
+            margin-left: 26px;
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        nav a:hover {
+            color: var(--text-main);
+        }
+
+        .hero {
+            padding: 80px 60px 100px;
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .hero h1 {
+            font-size: 44px;
+            line-height: 1.2;
+            margin-bottom: 22px;
+        }
+
+        .hero p {
+            color: var(--text-muted);
+            max-width: 520px;
+            margin-bottom: 36px;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 16px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), #00b4ff);
+            padding: 14px 22px;
+            border-radius: var(--radius);
+            font-weight: 600;
+            box-shadow: 0 0 0 transparent;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 0 24px var(--border-glow);
+        }
+
+        .btn-secondary {
+            border: 1px solid var(--border-glow);
+            padding: 14px 22px;
+            border-radius: var(--radius);
+            color: var(--text-main);
+            background: transparent;
+        }
+
+        .hero-visual {
+            height: 360px;
+            border-radius: var(--radius);
+            background:
+                linear-gradient(135deg, rgba(0, 136, 255, 0.25), transparent),
+                repeating-linear-gradient(0deg,
+                    rgba(255, 255, 255, 0.04),
+                    rgba(255, 255, 255, 0.04) 1px,
+                    transparent 1px,
+                    transparent 20px);
+            border: 1px solid var(--border-glow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-visual::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at bottom left, rgba(0, 136, 255, 0.35), transparent 60%);
+        }
+
+        .badges {
+            padding: 24px 60px;
+            display: flex;
+            justify-content: space-between;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            color: var(--text-muted);
+            font-size: 13px;
+        }
+
+        section {
+            padding: 90px 60px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 32px;
+            margin-bottom: 50px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 26px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 28px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--primary), #00c6ff);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 18px;
+            font-weight: 700;
+        }
+
+        .card h3 {
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .card p {
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        footer {
+            background: #030815;
+            padding: 50px 60px 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .footer-top {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .footer-top p {
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        @media (max-width: 900px) {
+            .hero {
+                grid-template-columns: 1fr;
+                padding: 60px 30px;
+            }
+
+            header {
+                padding: 24px 30px;
+            }
+
+            section {
+                padding: 70px 30px;
+            }
+
+            .badges {
+                padding: 20px 30px;
+                flex-wrap: wrap;
+                gap: 16px;
+            }
+        }
     </style>
 </head>
+
 <body>
-    <div class="container">
-        <h1>MAHMUD SECURITY LABS</h1>
-        <p class="status">[ STATUS: ACTIVE | LOCATION: DHAKA ]</p>
-        <div class="content">
-            <p>> Initializing security portfolio...</p>
-            <p>> Specialized in: Penetration Testing | Threat Intel | Security Research</p>
-            <hr>
-            <h3>Active Research & Projects</h3>
-            <ul>
-                <li>Home Lab Deployment (In Progress)</li>
-                <li>Nmap Automation Scripts (Coming Soon)</li>
-            </ul>
+
+    <header>
+        <div class="logo">
+            <div class="logo-icon">MS</div>
+            Mahmud Security Labs
         </div>
+        <nav>
+            <a href="#">Home</a>
+            <a href="#">About</a>
+            <a href="#">Vulnerability</a>
+            <a href="#">Blog</a>
+            <a href="#">Contact</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div>
+            <h1>
+                Securing Digital Assets via<br>
+                Advanced PenTesting<br>
+                & Vulnerability Research.
+            </h1>
+            <p>
+                Independent cybersecurity audits by Mahmud Security Labs.
+                Protecting infrastructure, identifying risks, and ensuring
+                business continuity.
+            </p>
+            <div class="buttons">
+                <a class="btn-primary" href="#">Get a Security Audit</a>
+                <a class="btn-secondary" href="#">View Lab Research</a>
+            </div>
+        </div>
+
+        <div class="hero-visual"></div>
+    </section>
+
+    <div class="badges">
+        <span>HackTheBox Pro</span>
+        <span>TryHackMe </span>
+        <span>GitHub</span>
     </div>
+
+    <section>
+        <h2 class="section-title">Our Expertise</h2>
+        <div class="grid">
+            <div class="card">
+                <div class="card-icon">🌐</div>
+                <h3>Web Pentesting</h3>
+                <p>
+                    In-depth testing of web applications to identify OWASP Top 10
+                    vulnerabilities and logic flaws.
+                </p>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">🖧</div>
+                <h3>Network Audits</h3>
+                <p>
+                    Secure internal and external infrastructure through comprehensive
+                    network security assessments.
+                </p>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">🔍</div>
+                <h3>Vulnerability Research</h3>
+                <p>
+                    Advanced research on emerging attack vectors, zero-days, and
+                    exploitation techniques.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-top">
+            <p>
+                Professional email: <strong>ishtiyak@mahmudlabs.com</strong><br>
+                PGP Key available upon request
+            </p>
+            <p>
+                All communications encrypted.<br>
+                Strict NDA protocols implemented.
+            </p>
+        </div>
+        <div class="footer-bottom">
+            © 2026 Mahmud Security Labs. All rights reserved.
+        </div>
+    </footer>
+
 </body>
+
 </html>
